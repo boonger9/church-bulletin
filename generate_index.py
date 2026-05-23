@@ -1,0 +1,135 @@
+import os, re
+
+def scan_bulletins():
+    files = []
+    for f in os.listdir('.'):
+        m = re.match(r'^(\d{4})-(\d{2})-(\d{2})\.html$', f)
+        if m:
+            y, mo, d = m.groups()
+            title, issue = '', ''
+            try:
+                content = open(f, encoding='utf-8').read()
+                tm = re.search(r'class="s-ttl"[^>]*>([^<]+)<', content)
+                if tm: title = tm.group(1).strip()
+                im = re.search(r'제\s*(\d+)호', content)
+                if im: issue = f'제 {im.group(1)}호'
+            except:
+                pass
+            files.append({
+                'file': f,
+                'date': f'{y}-{mo}-{d}',
+                'display': f'{y}년 {int(mo)}월 {int(d)}일',
+                'title': title,
+                'issue': issue
+            })
+    return sorted(files, key=lambda x: x['date'], reverse=True)
+
+
+def make_card(b, i):
+    latest = ' latest' if i == 0 else ''
+    badge = '<span class="latest-badge">최신</span>' if i == 0 else ''
+    meta_parts = [b['issue'], b['title']]
+    meta = ' · '.join(p for p in meta_parts if p)
+    return f'''    <a href="{b['file']}" class="bulletin-card{latest}">
+      <div class="card-icon">📋</div>
+      <div class="card-body">
+        <div class="card-date">{b['display']}</div>
+        <div class="card-meta">{meta}</div>
+      </div>
+      {badge}
+      <span class="card-arrow">›</span>
+    </a>'''
+
+
+def generate():
+    bulletins = scan_bulletins()
+
+    # 연도·월별 그룹핑
+    grouped = {}
+    for b in bulletins:
+        y = b['date'][:4]
+        mo = int(b['date'][5:7])
+        grouped.setdefault(y, {}).setdefault(mo, []).append(b)
+
+    sections = ''
+    card_index = 0
+    for year in sorted(grouped.keys(), reverse=True):
+        sections += f'  <div class="year-label">{year}년</div>\n'
+        for month in sorted(grouped[year].keys(), reverse=True):
+            sections += f'  <div class="month-label">{month}월</div>\n'
+            for b in grouped[year][month]:
+                sections += make_card(b, card_index) + '\n'
+                card_index += 1
+
+    if not sections:
+        sections = '  <div class="empty">아직 등록된 주보가 없습니다.</div>'
+
+    html = f'''<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>대구우리교회 주보</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{{--navy:#1a2c4e;--navy2:#2a4070;--gold:#b8952a;--gold2:#d4af50;--cream:#faf7f2;--bg2:#f0ebe0;--border:#e8e0d0;--tl:#888;}}
+*{{box-sizing:border-box;margin:0;padding:0;}}
+html,body{{overflow-x:hidden;-webkit-text-size-adjust:100%;}}
+body{{font-family:'Noto Sans KR',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;-webkit-font-smoothing:antialiased;}}
+.hdr{{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;text-align:center;padding:env(safe-area-inset-top) 20px 0;}}
+.hdr-inner{{padding:32px 20px 28px;position:relative;overflow:hidden;}}
+.hdr-inner::before{{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(184,149,42,.1);}}
+.cross{{font-size:28px;margin-bottom:10px;display:block;position:relative;z-index:1;}}
+.church-name{{font-family:'Noto Serif KR',serif;font-size:26px;font-weight:700;letter-spacing:3px;position:relative;z-index:1;}}
+.church-sub{{font-size:13px;color:var(--gold2);letter-spacing:1px;margin-top:5px;position:relative;z-index:1;}}
+.hdr-div{{width:36px;height:1px;background:var(--gold);margin:14px auto;position:relative;z-index:1;}}
+.hdr-desc{{font-size:15px;color:rgba(255,255,255,.75);line-height:1.7;position:relative;z-index:1;}}
+.main{{padding:24px 16px calc(env(safe-area-inset-bottom) + 40px);max-width:520px;margin:0 auto;}}
+.year-label{{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--tl);font-weight:600;letter-spacing:1px;margin:24px 0 10px 4px;display:flex;align-items:center;gap:8px;}}
+.year-label::after{{content:'';flex:1;height:1px;background:var(--border);}}
+.year-label:first-child{{margin-top:0;}}
+.month-label{{font-size:13px;color:var(--gold);font-weight:600;margin:16px 0 8px 4px;letter-spacing:.5px;}}
+a.bulletin-card{{display:flex;align-items:center;gap:14px;background:#fff;border-radius:14px;padding:17px 18px;margin-bottom:10px;text-decoration:none;color:inherit;box-shadow:0 1px 6px rgba(26,44,78,.08);border:1.5px solid transparent;-webkit-tap-highlight-color:rgba(26,44,78,.08);touch-action:manipulation;}}
+a.bulletin-card:active{{border-color:var(--gold);box-shadow:0 2px 12px rgba(184,149,42,.2);}}
+a.bulletin-card.latest{{border-color:var(--gold);background:linear-gradient(135deg,#fffdf7,#fff);}}
+.card-icon{{width:44px;height:44px;background:var(--navy);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}}
+a.bulletin-card.latest .card-icon{{background:linear-gradient(135deg,var(--gold),var(--gold2));}}
+.card-body{{flex:1;min-width:0;}}
+.card-date{{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:600;color:var(--navy);margin-bottom:3px;}}
+.card-meta{{font-size:13px;color:var(--tl);}}
+.latest-badge{{background:var(--gold);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.5px;flex-shrink:0;}}
+.card-arrow{{color:var(--border);font-size:18px;flex-shrink:0;}}
+a.bulletin-card.latest .card-arrow{{color:var(--gold2);}}
+.empty{{text-align:center;padding:60px 20px;color:var(--tl);font-size:16px;line-height:2;}}
+.ftr{{text-align:center;padding:28px 16px;border-top:1px solid var(--border);margin-top:20px;}}
+.ftr-name{{font-family:'Noto Serif KR',serif;font-size:15px;color:var(--navy);letter-spacing:1.5px;margin-bottom:4px;}}
+.ftr-slogan{{font-size:12px;color:var(--tl);font-style:italic;}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-inner">
+    <span class="cross">✝</span>
+    <div class="church-name">대구우리교회</div>
+    <div class="church-sub">대한예수교장로회 합신 · 경북노회</div>
+    <div class="hdr-div"></div>
+    <div class="hdr-desc">주일 예배 주보 모아보기<br>원하는 날짜를 선택하세요</div>
+  </div>
+</header>
+<main class="main">
+{sections}
+</main>
+<footer class="ftr">
+  <div class="ftr-name">대구우리교회</div>
+  <div class="ftr-slogan">바른신학 · 바른교회 · 바른생활</div>
+</footer>
+</body>
+</html>'''
+
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(html)
+    print(f'✅ index.html 생성 완료: {len(bulletins)}개 주보')
+
+
+if __name__ == '__main__':
+    generate()
