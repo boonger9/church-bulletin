@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>대구우리교회 주보 - 2026년 6월 7일</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nv:#1a2c4e;--nv2:#2a4070;--gd:#b8952a;--gd2:#d4af50;
+  --cr:#faf7f2;--bg2:#f0ebe0;--txt:#1a1a1a;--sub:#555;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--cr);color:var(--txt);font-family:'Noto Sans KR',sans-serif;font-size:19px;line-height:1.7;}
+
+/* ── 탭 ── */
+#r1,#r2{position:absolute;width:0;height:0;opacity:0;pointer-events:none;}
+#p1,#p2{display:none;}
+#r1:checked~#p1{display:block;}
+#r2:checked~#p2{display:block;}
+
+.tab-wrap{position:sticky;top:0;z-index:100;display:flex;background:var(--nv);
+  padding-top:env(safe-area-inset-top);}
+label.tab{flex:1;text-align:center;padding:13px 6px;color:rgba(255,255,255,.6);
+  font-size:15px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:.2s;}
+#r1:checked~.tab-wrap label[for="r1"],
+#r2:checked~.tab-wrap label[for="r2"]{color:#fff;border-bottom-color:var(--gd2);}
+
+/* ── 헤더 ── */
+.hd{background:linear-gradient(160deg,var(--nv) 0%,var(--nv2) 100%);
+  color:#fff;padding:28px 20px 22px;text-align:center;}
+.hd-sub{font-size:13px;letter-spacing:2px;color:var(--gd2);margin-bottom:6px;}
+.hd-title{font-family:'Noto Serif KR',serif;font-size:26px;font-weight:700;margin-bottom:4px;}
+.hd-info{font-size:13px;color:rgba(255,255,255,.7);margin-top:8px;}
+.hd-slogan{display:inline-flex;gap:10px;margin-top:10px;font-size:12px;color:var(--gd2);
+  border:1px solid rgba(212,175,80,.4);padding:4px 14px;border-radius:20px;}
+
+/* ── 섹션 ── */
+.sec{margin:14px 14px 0;background:#fff;border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden;}
+.sec-hd{background:var(--nv);color:#fff;padding:11px 16px;
+  font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;letter-spacing:.5px;}
+.sec-hd span{color:var(--gd2);margin-right:6px;}
+.sec-bd{padding:14px 16px;}
+
+/* ── 예배 순서 ── */
+.ordr{width:100%;border-collapse:collapse;font-size:16px;}
+.ordr tr{border-bottom:1px solid #f0ebe0;}
+.ordr tr:last-child{border-bottom:none;}
+.ordr td{padding:8px 4px;}
+.ordr td:first-child{color:var(--sub);width:38%;font-size:14px;}
+.ordr td:last-child{color:var(--nv);font-weight:500;}
+.ordr .star td:first-child::before{content:"✦ ";color:var(--gd);font-size:11px;}
+.ordr .sermon td:last-child{color:#8b3a3a;font-weight:700;}
+
+/* ── 버튼 ── */
+.tb{display:inline-block;padding:7px 13px;border-radius:20px;font-size:14px;
+  font-weight:600;text-decoration:none;margin:3px 3px;border:none;cursor:pointer;}
+.tb.hy{background:#f0e6d3;color:#6b4c2a;}
+.tb.sc{background:#dbeafe;color:#1e40af;}
+.tb.cr{background:#d1fae5;color:#065f46;}
+.tb.rs{background:#ede9fe;color:#5b21b6;}
+.tb.pr{background:#fef9c3;color:#713f12;}
+
+/* ── 헌금위원 ── */
+.hunk{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px;}
+.hunk-item{background:#f8f5ef;border-radius:8px;padding:8px 10px;font-size:14px;}
+.hunk-item b{color:var(--nv);display:block;font-size:13px;margin-bottom:2px;}
+
+/* ── 소식 ── */
+.news-item{padding:10px 0;border-bottom:1px solid #f0ebe0;font-size:16px;}
+.news-item:last-child{border-bottom:none;}
+.news-item .label{font-size:12px;font-weight:700;color:#fff;background:var(--nv2);
+  padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:5px;}
+.news-item .label.red{background:#b91c1c;}
+.news-item .label.green{background:#065f46;}
+.news-item .label.purple{background:#5b21b6;}
+.pray-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.pray-chip{background:#fef3c7;color:#92400e;padding:4px 10px;border-radius:12px;font-size:14px;}
+
+/* ── 노회 소식 ── */
+.nohoe{background:#f0f4ff;border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:15px;line-height:1.8;}
+.nohoe b{color:var(--nv2);display:block;margin-bottom:3px;}
+
+/* ── 오후예배 ── */
+.pm-row{display:flex;justify-content:space-between;padding:7px 0;
+  border-bottom:1px solid #f0ebe0;font-size:16px;}
+.pm-row:last-child{border-bottom:none;}
+.pm-row .lbl{color:var(--sub);font-size:14px;}
+
+/* ── 일꾼 표 ── */
+.worker{width:100%;border-collapse:collapse;font-size:15px;}
+.worker td{padding:7px 8px;border-bottom:1px solid #f0ebe0;}
+.worker td:first-child{color:var(--sub);width:42%;font-size:14px;}
+
+/* ── 푸터 ── */
+.footer{text-align:center;padding:20px 16px calc(env(safe-area-inset-bottom)+28px);
+  font-size:13px;color:#999;margin-top:14px;}
+
+/* ── 모달 ── */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;
+  background:rgba(0,0,0,.87);overflow-y:scroll;-webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  padding:calc(env(safe-area-inset-top) + 16px) 14px calc(env(safe-area-inset-bottom) + 40px);}
+.modal:target{display:block;}
+.mbox{background:#fff;border-radius:14px;max-width:500px;margin:0 auto;overflow:hidden;}
+.mbox-hd{background:var(--nv);color:#fff;padding:14px 18px;
+  display:flex;justify-content:space-between;align-items:center;}
+.mbox-ttl{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;}
+.mbox-cls{color:rgba(255,255,255,.8);text-decoration:none;font-size:20px;line-height:1;}
+.mbox-bd{padding:18px;font-size:16px;line-height:2;}
+
+/* ── 성시교독 ── */
+.rl{padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:16px;line-height:1.8;}
+.rl-all{padding:8px 10px;margin:6px 0;background:#fef9c3;border-radius:6px;
+  font-size:16px;font-weight:600;color:#78350f;line-height:1.8;}
+
+/* ── 성경 본문 ── */
+.sc-verse{font-size:16px;line-height:2;color:#333;}
+.sc-verse p{margin-bottom:8px;}
+.sc-num{font-size:13px;color:var(--gd);font-weight:700;margin-right:4px;}
+
+/* ── 말씀메모 ── */
+.memo-hd{background:linear-gradient(160deg,var(--nv) 0%,var(--nv2) 100%);
+  color:#fff;padding:24px 20px 18px;text-align:center;}
+.memo-hd h2{font-family:'Noto Serif KR',serif;font-size:21px;font-weight:700;margin-bottom:4px;}
+.memo-hd p{font-size:14px;color:rgba(255,255,255,.75);}
+
+details.msec{background:#fff;border-radius:12px;margin:14px 14px 0;
+  box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden;}
+details.msec summary.c1{
+  background:var(--nv);color:#fff;padding:12px 16px;
+  font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;
+  cursor:pointer;list-style:none;display:flex;justify-content:space-between;}
+details.msec summary.c2{
+  background:var(--nv2);color:#fff;padding:12px 16px;
+  font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;
+  cursor:pointer;list-style:none;display:flex;justify-content:space-between;}
+details.msec summary.c3{
+  background:#5b21b6;color:#fff;padding:12px 16px;
+  font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;
+  cursor:pointer;list-style:none;display:flex;justify-content:space-between;}
+details.msec summary::-webkit-details-marker{display:none;}
+.mbd{padding:16px 18px;font-size:16px;line-height:1.9;color:#333;}
+.mbd p{margin-bottom:12px;}
+.mbd .point{background:#f0f4ff;border-left:4px solid var(--nv2);
+  padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:15px;}
+.mbd .apply{background:#fef3c7;border-left:4px solid var(--gd);
+  padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:15px;}
+.mbd .cross{background:#fce7f3;border-left:4px solid #be185d;
+  padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:15px;}
+
+/* 성찬 배너 */
+.communion-banner{background:linear-gradient(135deg,#7c2d12,#b45309);
+  color:#fff;text-align:center;padding:12px 16px;margin:14px 14px 0;
+  border-radius:12px;font-size:15px;font-weight:600;letter-spacing:.5px;}
+</style>
+</head>
+<body>
+
+<input type="radio" id="r1" name="tabs" checked>
+<input type="radio" id="r2" name="tabs">
+
+<div class="tab-wrap">
+  <label for="r1" class="tab">✝ 주보</label>
+  <label for="r2" class="tab">📖 말씀 메모</label>
+</div>
+
+<!-- ══════════ 주보 탭 ══════════ -->
+<div id="p1">
+
+  <div class="hd">
+    <div class="hd-sub">대한예수교장로회 합신 · 경북노회</div>
+    <div class="hd-title">대구우리교회</div>
+    <div class="hd-info">제 1268호 &nbsp;|&nbsp; 2026년 6월 7일 주일</div>
+    <div class="hd-slogan">
+      <span>바른신학</span><span>·</span><span>바른교회</span><span>·</span><span>바른생활</span>
+    </div>
+  </div>
+
+  <div class="communion-banner">
+    <span>🍞</span> 오늘은 성찬식이 있습니다 (매월 첫 주)
+  </div>
+
+  <!-- 주일 낮 예배 -->
+  <div class="sec">
+    <div class="sec-hd"><span>☀️</span>주일 낮 예배 <small style="font-weight:400;font-size:13px;color:rgba(255,255,255,.7)">오전 11:00</small></div>
+    <div class="sec-bd">
+      <table class="ordr">
+        <tr><td>묵도기원</td><td>다같이 (370, 384장)</td></tr>
+        <tr class="star"><td>찬&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;송</td><td>
+          <a href="https://raw.githubusercontent.com/boonger9/church-hymns/main/hymn_042.jpg" target="_blank" class="tb hy">🎵 42장 (1절만)</a>
+        </td></tr>
+        <tr><td>성시교독</td><td>
+          <a href="#m-responsive" class="tb rs">📖 85. 요한일서 4장</a>
+        </td></tr>
+        <tr class="star"><td>신앙고백</td><td>
+          <a href="#m-creed" class="tb cr">✝️ 사도신경</a>
+        </td></tr>
+        <tr class="star"><td>찬&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;송</td><td>
+          <a href="https://raw.githubusercontent.com/boonger9/church-hymns/main/hymn_304.jpg" target="_blank" class="tb hy">🎵 304장</a>
+        </td></tr>
+        <tr><td>대표기도</td><td>이미자 권사</td></tr>
+        <tr class="star sermon"><td>말&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;씀</td><td>
+          <a href="#m-sermon" class="tb sc">📖 고전 13:1~7</a><br>
+          <small style="color:#8b3a3a;font-weight:700;font-size:15px;">사랑이 없으면 — 이상후 목사</small>
+        </td></tr>
+        <tr><td>봉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;헌</td><td>
+          <a href="https://raw.githubusercontent.com/boonger9/church-hymns/main/hymn_310.jpg" target="_blank" class="tb hy">🎵 310장</a>
+        </td></tr>
+        <tr><td>성&nbsp;찬&nbsp;식</td><td>다같이 🍞🍷</td></tr>
+        <tr><td>교회소식</td><td>사회자</td></tr>
+        <tr class="star"><td>폐회찬송</td><td>
+          <a href="https://raw.githubusercontent.com/boonger9/church-hymns/main/hymn_054.jpg" target="_blank" class="tb hy">🎵 54장</a>
+        </td></tr>
+        <tr><td>축&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;도</td><td>이상후 목사</td></tr>
+      </table>
+    </div>
+    <div class="sec-bd" style="padding-top:0;">
+      <div style="font-size:13px;color:var(--sub);margin-bottom:6px;font-weight:600;">헌금위원</div>
+      <div class="hunk">
+        <div class="hunk-item"><b>1조</b>김태경 · 김정환</div>
+        <div class="hunk-item"><b>2조</b>김정숙 · 정진영</div>
+        <div class="hunk-item"><b>3조</b>방계매 · 손명애</div>
+        <div class="hunk-item"><b>4조</b>손경아 · 김희애</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 교회 소식 -->
+  <div class="sec">
+    <div class="sec-hd"><span>📢</span>교회 소식</div>
+    <div class="sec-bd">
+      <div class="news-item">
+        <span class="label">안내</span>
+        <p>매월 첫 주 <strong>성찬식</strong>, 매월 넷째 주에는 <strong>온 세대 찬양예배</strong></p>
+      </div>
+      <div class="news-item">
+        <span class="label">다음주 설교</span>
+        <p>6월 14일 낮 예배 설교: <strong>박헌호 목사</strong> (예수의 길 교회)</p>
+      </div>
+      <div class="news-item">
+        <span class="label green">말씀 챌린지</span>
+        <p>전교인 말씀 생활화 챌린지에 동참하세요! / 주일 말씀 QT</p>
+      </div>
+      <div class="news-item">
+        <span class="label">헌금</span>
+        <p>빔 프로젝트 작정헌금에 동참해 주셔서 감사합니다.</p>
+      </div>
+      <div class="news-item">
+        <span class="label purple">카카오톡</span>
+        <p>카카오톡 채널이 개설되었습니다. (주보 앞면 QR코드)<br>모든 공지와 소식은 이 곳에서 확인하세요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 교우 소식 -->
+  <div class="sec">
+    <div class="sec-hd"><span>🙏</span>교우 소식 · 중보기도</div>
+    <div class="sec-bd">
+      <div class="news-item">
+        <span class="label red">기도해주세요</span>
+        <div class="pray-list">
+          <span class="pray-chip">전숙이 권사</span>
+          <span class="pray-chip">박노완 (손경아 집사)</span>
+          <span class="pray-chip">여윤석 (정성순 권사)</span>
+          <span class="pray-chip">사공영광 집사</span>
+          <span class="pray-chip">김민기 학생</span>
+          <span class="pray-chip">이창림 성도</span>
+          <span class="pray-chip">이미자 권사</span>
+          <span class="pray-chip">김도율 어린이</span>
+        </div>
+      </div>
+      <div class="news-item">
+        <span class="label green">결혼 축하</span>
+        <p>정진영 권사의 딸 <strong>박하람</strong> 양의 결혼을 축하합니다!<br>
+        📅 2026.06.13(토) 오전 10:30<br>
+        📍 동촌노비아갈라 시그니아홀 2층<br>
+        🚌 교회 출발 오전 09:10</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 노회 소식 -->
+  <div class="sec">
+    <div class="sec-hd"><span>🏛️</span>노회 소식</div>
+    <div class="sec-bd">
+      <div class="nohoe">
+        <b>📚 경북노회 교사강습회</b>
+        일시: 2026년 6월 13일(토) 오전 10:00 ~ 오후 5:00<br>
+        장소: 화원중앙교회 (대구 달성군 화원읍 명천로 141)<br>
+        주제: "믿음을 지켜라" (유 1:3)<br>
+        차량 문의: 김성진 집사 010-2958-5649
+      </div>
+      <div class="nohoe">
+        <b>🏕️ 여름성경캠프 교재 신청</b>
+        <span style="color:#b91c1c;font-weight:700;">마감: 6월 7일(오늘) 오후 5:00까지</span><br>
+        신청: azz9ry81@gmail.com<br>
+        문의: 회장 김동규 집사 010-8248-1247<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서기 유재현 권사 010-2502-1305
+      </div>
+    </div>
+  </div>
+
+  <!-- 주일 오후 예배 -->
+  <div class="sec">
+    <div class="sec-hd"><span>🌙</span>주일 오후 예배 <small style="font-weight:400;font-size:13px;color:rgba(255,255,255,.7)">오후 1:30</small></div>
+    <div class="sec-bd">
+      <div class="pm-row"><span class="lbl">찬&nbsp;&nbsp;&nbsp;양</span><span>다같이</span></div>
+      <div class="pm-row"><span class="lbl">말&nbsp;&nbsp;&nbsp;씀</span><span>소요리문답 (91~93문항)</span></div>
+      <div class="pm-row"><span class="lbl">주기도문</span><span><a href="#m-lords" class="tb pr">🙏 주기도문</a></span></div>
+      <div style="margin-top:12px;font-size:14px;color:var(--sub);font-weight:600;">기도 순서</div>
+      <div class="pray-list" style="margin-top:6px;">
+        <span class="pray-chip">김성진</span>
+        <span class="pray-chip">사공영광</span>
+        <span class="pray-chip">김태경</span>
+        <span class="pray-chip">이미자</span>
+        <span class="pray-chip">정진영</span>
+        <span class="pray-chip">김정숙</span>
+        <span class="pray-chip">방계매</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 우리의 일꾼 -->
+  <div class="sec">
+    <div class="sec-hd"><span>👥</span>우리의 일꾼</div>
+    <div class="sec-bd">
+      <table class="worker">
+        <tr><td>영어도서관</td><td>이상후 · 김태경 교사</td></tr>
+        <tr><td>주일학교</td><td>김정숙 · 김정환 · 정진영</td></tr>
+        <tr><td>재정위원</td><td>김성진 · 김정숙 · 정진영</td></tr>
+        <tr><td>애찬위원</td><td>정진영</td></tr>
+        <tr><td>교육위원</td><td>김정숙</td></tr>
+        <tr><td>전도위원</td><td>김태경</td></tr>
+        <tr><td>차&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;량</td><td>김성진</td></tr>
+        <tr><td>반&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주</td><td>김예지</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 교회 안내 -->
+  <div class="sec">
+    <div class="sec-hd"><span>🏠</span>교회 안내</div>
+    <div class="sec-bd" style="font-size:15px;line-height:2;">
+      <p>📍 대구 동구 메디밸리로 5-2 (3층)</p>
+      <p>📞 053-964-3230</p>
+      <p>💳 대구은행 504-10-228501-4 (예금주: 대구우리교회)</p>
+      <p>📺 유튜브: 대구우리교회_대한예수교장로회합신</p>
+      <div style="margin-top:10px;padding:10px 12px;background:#f8f5ef;border-radius:8px;">
+        <div style="font-size:13px;font-weight:700;color:var(--nv);margin-bottom:6px;">교회 비전</div>
+        <div style="font-size:14px;color:#444;line-height:1.9;">
+          1. 예수님을 바로 알고 믿도록 합니다.<br>
+          2. 말씀으로 성도 간에 영적 교제를 나눕니다.<br>
+          3. 주님의 명령에 응답하여 제자로 순종합니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">대구우리교회 · 대한예수교장로회 합신 · 경북노회<br>제 1268호 · 2026년 6월 7일</div>
+</div>
+
+<!-- ══════════ 말씀 메모 탭 ══════════ -->
+<div id="p2">
+  <div class="memo-hd">
+    <h2>사랑이 없으면</h2>
+    <p>고린도전서 13:1~7 &nbsp;·&nbsp; 이상후 목사</p>
+  </div>
+
+  <details class="msec" open>
+    <summary class="c1">📖 서론 ▾</summary>
+    <div class="mbd">
+      <p>우리는 왜 열심히 살고 있는데 마음이 점점 메말라 가는 걸까요? 예배를 드리고, 봉사를 감당하고, 가족을 위해 수고하지만, 어느 순간 감격은 사라지고 의무만 남는 경험은 낯설지 않습니다.</p>
+      <p>아프리카에서 30년을 헌신한 선교사 데이비드 리빙스턴조차 "나는 의무로 여기 있었던 것은 아닐까"라고 고백했습니다.</p>
+      <div class="point">바울은 고린도전서 13장에서 바로 이 질문의 핵심을 건드립니다. 문제는 행위가 아니라 <strong>동기</strong>입니다. 그 동기의 중심이 무엇인지를 오늘 본문은 날카롭게 묻고 있습니다.</div>
+    </div>
+  </details>
+
+  <details class="msec" open>
+    <summary class="c2">1️⃣ 성취 목록의 해체 — 동기를 묻는 복음 ▾</summary>
+    <div class="mbd">
+      <p>바울은 1~3절에서 방언, 예언, 지식, 믿음, 구제, 순교까지 인간이 상상할 수 있는 가장 숭고한 헌신의 목록을 나열한 뒤, 동일한 결론을 붙입니다.</p>
+      <div class="cross">"사랑이 없으면 아무것도 아니요." (고전 13:2)</div>
+      <p>이 목록에 나쁜 것은 하나도 없습니다. 그러나 바울이 보고 있는 것은 행위가 아니라 <strong>동기</strong>입니다.</p>
+      <p>사랑 없는 방언은 "소리 나는 구리와 울리는 꽹과리"가 됩니다. 소리는 크게 납니다. 그러나 그 소리는 누군가를 향한 소리가 아니라 <em>"나 여기 있으니 들어달라"</em>는 고독한 독백입니다.</p>
+      <div class="point">하나님을 위한다고 하면서 실은 "나는 충분한가"라는 불안에 답하고 있을 때, 영적인 헌신은 자기 의(義)를 꽹과리처럼 울리는 행위가 됩니다.</div>
+      <p>이것이 왜 위험한가 하면, 가장 발견하기 어렵고 가장 고치기 어려운 형태의 자기중심성이기 때문입니다.</p>
+    </div>
+  </details>
+
+  <details class="msec" open>
+    <summary class="c2">2️⃣ 사랑의 초상화 — 예수 그리스도의 얼굴 ▾</summary>
+    <div class="mbd">
+      <p>4~7절은 사랑에 대한 16개의 동사로 이루어진 묘사입니다. 그러나 이 목록 앞에서 우리는 곧 발견합니다. <strong>이것은 나의 이야기가 아닙니다.</strong></p>
+      <p>오래 참지 못하고, 자기 유익을 구하며, 악한 것을 꼼꼼히 기록하는 것이 우리의 실제입니다.</p>
+      <div class="point">4~7절은 우리가 채워야 할 성적표가 아니라, 이미 완전하게 그려진 <strong>예수 그리스도의 초상화</strong>입니다. "사랑" 자리에 "예수님"을 넣어 읽으면 완벽히 읽힙니다.</div>
+      <p>예수님은 우리가 같은 실패를 반복해도 멀리 열어둔 마음으로 기다리시고, 자기를 비워 종의 형체를 입고 오셨으며, 우리의 죄 장부를 십자가에 못 박아 지우셨고, 겟세마네에서 모든 것을 견디셨습니다.</p>
+      <p>바울은 지금 도덕 지침을 주는 것이 아니라 <strong>우리에게 예수님을 보여주고 있습니다.</strong></p>
+    </div>
+  </details>
+
+  <details class="msec" open>
+    <summary class="c3">✝️ 결론 및 적용 ▾</summary>
+    <div class="mbd">
+      <p>이제 그 완전한 사랑 앞에서 우리의 동기를 정직하게 직면해야 합니다.</p>
+      <div class="apply">지금 내가 하는 봉사와 헌신이 하나님께 이미 사랑받았기 때문에 흘러나오는 <strong>감사</strong>입니까, 아니면 내 불안과 자존심을 채우려는 <strong>자기증명의 몸부림</strong>입니까?</div>
+      <p>그 불편한 질문 앞에 서는 것이 회개의 시작입니다. 그러나 복음은 우리를 절망에 머물게 하지 않습니다.</p>
+      <div class="cross">"너는 더 이상 증명하지 않아도 된다. 예수 안에서 너는 이미 충분하다."</div>
+      <p>그 믿음의 자리로 이동할 때, 우리의 수고는 강요에서 감사로, 무거운 의무에서 넘쳐흐르는 사랑의 응답으로 변합니다.</p>
+      <div class="point">오늘, <strong>꽹과리 채를 십자가 앞에 내려놓으십시오.</strong><br>그 자리에서 메마른 삶이 다시 살아나기 시작할 것입니다.</div>
+    </div>
+  </details>
+
+  <div style="text-align:center;padding:16px 14px 4px;">
+    <a href="#m-sermon" class="tb sc" style="font-size:15px;padding:10px 20px;">📖 고린도전서 13:1~7 본문 보기</a>
+  </div>
+
+  <div class="footer">대구우리교회 · 2026년 6월 7일</div>
+</div>
+
+<!-- ══════════ 모달 ══════════ -->
+
+<!-- 사도신경 -->
+<div id="m-creed" class="modal">
+  <div class="mbox">
+    <div class="mbox-hd">
+      <span class="mbox-ttl">사도신경 (새번역)</span>
+      <a href="#!" class="mbox-cls">✕</a>
+    </div>
+    <div class="mbox-bd">
+      나는 전능하신 아버지 하나님, 천지의 창조주를 믿습니다.<br>
+      나는 그의 유일하신 아들, 우리 주 예수 그리스도를 믿습니다.<br>
+      그는 성령으로 잉태되어 동정녀 마리아에게서 나시고,<br>
+      본디오 빌라도에게 고난을 받아 십자가에 못 박혀 죽으시고,<br>
+      장사된 지 사흘만에 죽은 자 가운데서 다시 살아나셨으며,<br>
+      하늘에 오르시어 전능하신 아버지 하나님 우편에 앉아 계시다가,<br>
+      거기로부터 살아있는 자와 죽은 자를 심판하러 오십니다.<br>
+      나는 성령을 믿으며, 거룩한 공교회와 성도의 교제와<br>
+      죄를 용서 받는 것과 몸의 부활과 영생을 믿습니다. 아멘.
+    </div>
+  </div>
+</div>
+
+<!-- 주기도문 -->
+<div id="m-lords" class="modal">
+  <div class="mbox">
+    <div class="mbox-hd">
+      <span class="mbox-ttl">주기도문 (새번역)</span>
+      <a href="#!" class="mbox-cls">✕</a>
+    </div>
+    <div class="mbox-bd">
+      하늘에 계신 우리 아버지, 아버지의 이름을 거룩하게 하시며<br>
+      아버지의 나라가 오게 하시며, 아버지의 뜻이 하늘에서와 같이 땅에서도 이루어지게 하소서.<br>
+      오늘 우리에게 일용할 양식을 주시고,<br>
+      우리가 우리에게 잘못한 사람을 용서하여 준 것같이 우리 죄를 용서하여 주시고,<br>
+      우리를 시험에 빠지지 않게 하시고 악에서 구하소서.<br>
+      나라와 권능과 영광이 영원히 아버지의 것입니다. 아멘.
+    </div>
+  </div>
+</div>
+
+<!-- 성시교독 85 요한일서 4장 -->
+<div id="m-responsive" class="modal">
+  <div class="mbox">
+    <div class="mbox-hd">
+      <span class="mbox-ttl">성시교독 85 — 요한일서 4장</span>
+      <a href="#!" class="mbox-cls">✕</a>
+    </div>
+    <div class="mbox-bd">
+      <div class="rl">사랑하는 자들아 우리가 서로 사랑하자 사랑은 하나님께 속한 것이니<br>사랑하는 자마다 하나님으로부터 나서 하나님을 알고</div>
+      <div class="rl">사랑하지 아니하는 자는 하나님을 알지 못하나니<br>이는 하나님은 사랑이심이라</div>
+      <div class="rl">하나님의 사랑이 우리에게 이렇게 나타난 바 되었으니<br>하나님이 자기의 독생자를 세상에 보내심은 그로 말미암아 우리를 살리려 하심이라</div>
+      <div class="rl">사랑은 여기 있으니 우리가 하나님을 사랑한 것이 아니요<br>하나님이 우리를 사랑하사 우리 죄를 속하기 위하여 화목 제물로 그 아들을 보내셨음이라</div>
+      <div class="rl">사랑하는 자들아 하나님이 이같이 우리를 사랑하셨은즉<br>우리도 서로 사랑하는 것이 마땅하도다</div>
+      <div class="rl">어느 때나 하나님을 본 사람이 없으되 만일 우리가 서로 사랑하면<br>하나님이 우리 안에 거하시고 그의 사랑이 우리 안에 온전히 이루어지느니라</div>
+      <div class="rl-all">✦ 다같이 &nbsp; 사랑하는 자들아 하나님이 이같이 우리를 사랑하셨은즉 우리도 서로 사랑하는 것이 마땅하도다 <span style="color:#888;font-size:14px;">(요일 4:7-12)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 설교 본문 고전 13:1~7 -->
+<div id="m-sermon" class="modal">
+  <div class="mbox">
+    <div class="mbox-hd">
+      <span class="mbox-ttl">고린도전서 13:1~7</span>
+      <a href="#!" class="mbox-cls">✕</a>
+    </div>
+    <div class="mbox-bd sc-verse">
+      <p><span class="sc-num">1</span>내가 사람의 방언과 천사의 말을 할지라도 사랑이 없으면 소리 나는 구리와 울리는 꽹과리가 되고</p>
+      <p><span class="sc-num">2</span>내가 예언하는 능력이 있어 모든 비밀과 모든 지식을 알고 또 산을 옮길 만한 모든 믿음이 있을지라도 사랑이 없으면 내가 아무 것도 아니요</p>
+      <p><span class="sc-num">3</span>내가 내게 있는 모든 것으로 구제하고 또 내 몸을 불사르게 내줄지라도 사랑이 없으면 내게 아무 유익이 없느니라</p>
+      <p><span class="sc-num">4</span>사랑은 오래 참고 사랑은 온유하며 시기하지 아니하며 사랑은 자랑하지 아니하며 교만하지 아니하며</p>
+      <p><span class="sc-num">5</span>무례히 행하지 아니하며 자기의 유익을 구하지 아니하며 성내지 아니하며 악한 것을 생각하지 아니하며</p>
+      <p><span class="sc-num">6</span>불의를 기뻐하지 아니하며 진리와 함께 기뻐하고</p>
+      <p><span class="sc-num">7</span>모든 것을 참으며 모든 것을 믿으며 모든 것을 바라며 모든 것을 견디느니라</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
